@@ -1,7 +1,9 @@
 #include <pebble.h>
   
 static Window *s_main_window;
-static TextLayer *s_time_layer;
+static TextLayer *hour_layer;
+static TextLayer *minute_layer;
+static TextLayer *second_layer;
 
 static int hour_1;
 static int hour_2;
@@ -28,22 +30,32 @@ static void update_time()
   to_binary_string(buffer, tick_time->tm_sec);
 
   // Display this time on the TextLayer
-  text_layer_set_text(s_time_layer, buffer);
+  text_layer_set_text(second_layer, buffer);
 }
 
 static void main_window_load(Window *window) {
   // Create time TextLayer
-  s_time_layer = text_layer_create(GRect(0, 55, 144, 50));
-  text_layer_set_background_color(s_time_layer, GColorClear);
-  text_layer_set_text_color(s_time_layer, GColorBlack);
-  text_layer_set_text(s_time_layer, "00:00");
+  second_layer = text_layer_create(GRect(0, 55, 144, 50));
+  minute_layer = text_layer_create(GRect(0, 55, 60, 50));
+  hour_layer = text_layer_create(GRect(0, 55, 0, 50));
+  // text_layer_set_background_color(s_time_layer, GColorClear);
+  text_layer_set_text_color(second_layer, GColorBlack);
+  text_layer_set_text_color(minute_layer, GColorBlack);
+  text_layer_set_text_color(hour_layer, GColorBlack);
+  text_layer_set_text(second_layer, "sec");
+  text_layer_set_text(minute_layer, "min");
+  text_layer_set_text(hour_layer, "hour");
 
   // Improve the layout to be more like a watchface
-  text_layer_set_font(s_time_layer, fonts_get_system_font(FONT_KEY_BITHAM_42_BOLD));
-  text_layer_set_text_alignment(s_time_layer, GTextAlignmentCenter);
+  // text_layer_set_font(s_time_layer, fonts_get_system_font(FONT_KEY_BITHAM_42_BOLD));
+  text_layer_set_text_alignment(second_layer, GTextAlignmentCenter);
+  text_layer_set_text_alignment(minute_layer, GTextAlignmentCenter);
+  text_layer_set_text_alignment(hour_layer, GTextAlignmentCenter);
 
   // Add it as a child layer to the Window's root layer
-  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_time_layer));
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(second_layer));
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(minute_layer));
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(hour_layer));
   
   // Make sure the time is displayed from the start
   update_time();
@@ -51,7 +63,9 @@ static void main_window_load(Window *window) {
 
 static void main_window_unload(Window *window) {
   // Destroy TextLayer
-  text_layer_destroy(s_time_layer);
+  text_layer_destroy(second_layer);
+  text_layer_destroy(minute_layer);
+  text_layer_destroy(hour_layer);
 }
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
