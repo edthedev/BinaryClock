@@ -9,6 +9,8 @@ static int hour_1;
 static int hour_2;
 static int hour_3;
 static int hour_4;
+static int hour_5;
+static int hour_6;
 
 static void to_binary_string(char* buffer, int number)
 {
@@ -16,7 +18,9 @@ static void to_binary_string(char* buffer, int number)
   hour_2 = (number >> 1) & 1;
   hour_3 = (number >> 2) & 1;
   hour_4 = (number >> 3) & 1;
-  snprintf(buffer, 5, "%d%d%d%d", hour_4,hour_3,hour_2,hour_1);
+  hour_5 = (number >> 4) & 1;
+  hour_6 = (number >> 5) & 1;
+  snprintf(buffer, 7, "%d%d%d%d%d%d",hour_6,hour_5,hour_4,hour_3,hour_2,hour_1);
 }
 
 static void update_time()
@@ -25,9 +29,9 @@ static void update_time()
   time_t temp = time(NULL); 
   struct tm *tick_time = localtime(&temp);
 
-  static char sec_buffer[] = "00:00";
-  static char min_buffer[] = "00:00";
-  static char hour_buffer[] = "00:00";
+  static char sec_buffer[] = "000000";
+  static char min_buffer[] = "000000";
+  static char hour_buffer[] = "000000";
 
   to_binary_string(sec_buffer, tick_time->tm_sec);
   text_layer_set_text(second_layer, sec_buffer);
@@ -41,9 +45,10 @@ static void update_time()
 
 static void main_window_load(Window *window) {
   // Create time TextLayer
-  second_layer = text_layer_create(GRect(0, 110, 144, 50));
-  minute_layer = text_layer_create(GRect(0, 55, 144, 50));
+  // x, y, width, height
   hour_layer = text_layer_create(GRect(0, 0, 144, 50));
+  minute_layer = text_layer_create(GRect(0, 40, 144, 50));
+  second_layer = text_layer_create(GRect(0, 80, 144, 50));
   // text_layer_set_background_color(s_time_layer, GColorClear);
   text_layer_set_text_color(second_layer, GColorBlack);
   text_layer_set_text_color(minute_layer, GColorBlack);
@@ -55,6 +60,8 @@ static void main_window_load(Window *window) {
   // Improve the layout to be more like a watchface
   // text_layer_set_font(s_time_layer, fonts_get_system_font(FONT_KEY_BITHAM_42_BOLD));
   text_layer_set_font(second_layer, fonts_get_system_font(FONT_KEY_ROBOTO_CONDENSED_21));
+  text_layer_set_font(minute_layer, fonts_get_system_font(FONT_KEY_ROBOTO_CONDENSED_21));
+  text_layer_set_font(hour_layer, fonts_get_system_font(FONT_KEY_ROBOTO_CONDENSED_21));
   text_layer_set_text_alignment(second_layer, GTextAlignmentCenter);
   text_layer_set_text_alignment(minute_layer, GTextAlignmentCenter);
   text_layer_set_text_alignment(hour_layer, GTextAlignmentCenter);
