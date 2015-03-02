@@ -8,20 +8,24 @@ static int hour_2;
 static int hour_3;
 static int hour_4;
 
+static void to_binary_string(char* buffer, int number)
+{
+  hour_1 = (number) & 1;
+  hour_2 = (number >> 1) & 1;
+  hour_3 = (number >> 2) & 1;
+  hour_4 = (number >> 3) & 1;
+  snprintf(buffer, 5, "%d%d%d%d", hour_4,hour_3,hour_2,hour_1);
+}
+
 static void update_time()
 {
   // Get a tm structure
   time_t temp = time(NULL); 
   struct tm *tick_time = localtime(&temp);
-   
-  hour_1 = (tick_time->tm_sec) & 1;
-  hour_2 = (tick_time->tm_sec >> 1) & 1;
-  hour_3 = (tick_time->tm_sec >> 2) & 1;
-  hour_4 = (tick_time->tm_sec >> 3) & 1;
 
-  // Create a long-lived buffer
   static char buffer[] = "00:00";
-  snprintf(buffer, 5, "%d%d%d%d", hour_4,hour_3,hour_2,hour_1);
+  // Create a long-lived buffer
+  to_binary_string(buffer, tick_time->tm_sec);
 
   // Display this time on the TextLayer
   text_layer_set_text(s_time_layer, buffer);
