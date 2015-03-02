@@ -26,18 +26,22 @@ static void update_time()
   struct tm *tick_time = localtime(&temp);
 
   static char buffer[] = "00:00";
-  // Create a long-lived buffer
-  to_binary_string(buffer, tick_time->tm_sec);
 
-  // Display this time on the TextLayer
+  to_binary_string(buffer, tick_time->tm_sec);
   text_layer_set_text(second_layer, buffer);
+  
+  to_binary_string(buffer, tick_time->tm_min);
+  text_layer_set_text(minute_layer, buffer);
+  
+  to_binary_string(buffer, tick_time->tm_hour);
+  text_layer_set_text(hour_layer, buffer);
 }
 
 static void main_window_load(Window *window) {
   // Create time TextLayer
   second_layer = text_layer_create(GRect(0, 55, 144, 50));
-  minute_layer = text_layer_create(GRect(0, 55, 60, 50));
-  hour_layer = text_layer_create(GRect(0, 55, 0, 50));
+  minute_layer = text_layer_create(GRect(0, 110, 144, 50));
+  hour_layer = text_layer_create(GRect(0, 165, 144, 50));
   // text_layer_set_background_color(s_time_layer, GColorClear);
   text_layer_set_text_color(second_layer, GColorBlack);
   text_layer_set_text_color(minute_layer, GColorBlack);
@@ -48,6 +52,7 @@ static void main_window_load(Window *window) {
 
   // Improve the layout to be more like a watchface
   // text_layer_set_font(s_time_layer, fonts_get_system_font(FONT_KEY_BITHAM_42_BOLD));
+  text_layer_set_font(second_layer, fonts_get_system_font(FONT_KEY_ROBOTO_CONDENSED_21));
   text_layer_set_text_alignment(second_layer, GTextAlignmentCenter);
   text_layer_set_text_alignment(minute_layer, GTextAlignmentCenter);
   text_layer_set_text_alignment(hour_layer, GTextAlignmentCenter);
