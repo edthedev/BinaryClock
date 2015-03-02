@@ -46,9 +46,9 @@ static void update_time()
 static void main_window_load(Window *window) {
   // Create time TextLayer
   // x, y, width, height
-  hour_layer = text_layer_create(GRect(0, 0, 144, 50));
-  minute_layer = text_layer_create(GRect(0, 40, 144, 50));
-  second_layer = text_layer_create(GRect(0, 80, 144, 50));
+  hour_layer = text_layer_create(GRect(0, 0, 144, 30));
+  minute_layer = text_layer_create(GRect(0, 40, 144, 30));
+  second_layer = text_layer_create(GRect(0, 80, 144, 30));
   // text_layer_set_background_color(s_time_layer, GColorClear);
   text_layer_set_text_color(second_layer, GColorBlack);
   text_layer_set_text_color(minute_layer, GColorBlack);
