@@ -2,8 +2,11 @@
   
 static Window *s_main_window;
 static TextLayer *hour_layer;
+static TextLayer *hour_label;
 static TextLayer *minute_layer;
+static TextLayer *minute_label;
 static TextLayer *second_layer;
+static TextLayer *second_label;
 
 static int hour_1;
 static int hour_2;
@@ -46,16 +49,19 @@ static void update_time()
 static void main_window_load(Window *window) {
   // Create time TextLayer
   // x, y, width, height
-  hour_layer = text_layer_create(GRect(0, 0, 144, 30));
-  minute_layer = text_layer_create(GRect(0, 40, 144, 30));
-  second_layer = text_layer_create(GRect(0, 80, 144, 30));
+  hour_label = text_layer_create(GRect(0, 0, 144, 15));
+  hour_layer = text_layer_create(GRect(0, 30, 144, 30));
+  minute_label = text_layer_create(GRect(0, 65, 144, 5));
+  minute_layer = text_layer_create(GRect(0, 70, 144, 30));
+  second_label = text_layer_create(GRect(0, 105, 144, 5));
+  second_layer = text_layer_create(GRect(0, 110, 144, 30));
   // text_layer_set_background_color(s_time_layer, GColorClear);
   text_layer_set_text_color(second_layer, GColorBlack);
   text_layer_set_text_color(minute_layer, GColorBlack);
   text_layer_set_text_color(hour_layer, GColorBlack);
-  text_layer_set_text(second_layer, "sec");
-  text_layer_set_text(minute_layer, "min");
-  text_layer_set_text(hour_layer, "hour");
+  text_layer_set_text(second_label, "sec");
+  text_layer_set_text(minute_label, "min");
+  text_layer_set_text(hour_label, "hour");
 
   // Improve the layout to be more like a watchface
   // text_layer_set_font(s_time_layer, fonts_get_system_font(FONT_KEY_BITHAM_42_BOLD));
