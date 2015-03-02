@@ -25,23 +25,25 @@ static void update_time()
   time_t temp = time(NULL); 
   struct tm *tick_time = localtime(&temp);
 
-  static char buffer[] = "00:00";
+  static char sec_buffer[] = "00:00";
+  static char min_buffer[] = "00:00";
+  static char hour_buffer[] = "00:00";
 
-  to_binary_string(buffer, tick_time->tm_sec);
-  text_layer_set_text(second_layer, buffer);
+  to_binary_string(sec_buffer, tick_time->tm_sec);
+  text_layer_set_text(second_layer, sec_buffer);
   
-  to_binary_string(buffer, tick_time->tm_min);
-  text_layer_set_text(minute_layer, buffer);
+  to_binary_string(min_buffer, tick_time->tm_min);
+  text_layer_set_text(minute_layer, min_buffer);
   
-  to_binary_string(buffer, tick_time->tm_hour);
-  text_layer_set_text(hour_layer, buffer);
+  to_binary_string(hour_buffer, tick_time->tm_hour);
+  text_layer_set_text(hour_layer, hour_buffer);
 }
 
 static void main_window_load(Window *window) {
   // Create time TextLayer
-  second_layer = text_layer_create(GRect(0, 55, 144, 50));
-  minute_layer = text_layer_create(GRect(0, 110, 144, 50));
-  hour_layer = text_layer_create(GRect(0, 165, 144, 50));
+  second_layer = text_layer_create(GRect(0, 110, 144, 50));
+  minute_layer = text_layer_create(GRect(0, 55, 144, 50));
+  hour_layer = text_layer_create(GRect(0, 0, 144, 50));
   // text_layer_set_background_color(s_time_layer, GColorClear);
   text_layer_set_text_color(second_layer, GColorBlack);
   text_layer_set_text_color(minute_layer, GColorBlack);
