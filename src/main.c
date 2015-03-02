@@ -8,7 +8,8 @@ static int hour_2;
 static int hour_3;
 static int hour_4;
 
-static void update_time() {
+static void update_time()
+{
   // Get a tm structure
   time_t temp = time(NULL); 
   struct tm *tick_time = localtime(&temp);
@@ -67,12 +68,13 @@ static void init() {
   window_stack_push(s_main_window, true);
   
   // Register with TickTimerService
-  tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
+  tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
 }
 
 static void deinit() {
   // Destroy Window
   window_destroy(s_main_window);
+  tick_timer_service_unsubscribe();
 }
 
 int main(void) {
