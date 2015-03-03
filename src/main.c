@@ -86,6 +86,9 @@ static void main_window_unload(Window *window) {
   text_layer_destroy(second_layer);
   text_layer_destroy(minute_layer);
   text_layer_destroy(hour_layer);
+  text_layer_destroy(second_label);
+  text_layer_destroy(minute_label);
+  text_layer_destroy(hour_label);
 }
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
